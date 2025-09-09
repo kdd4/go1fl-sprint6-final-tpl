@@ -20,6 +20,9 @@ func HandlerRoot(w http.ResponseWriter, req *http.Request) {
 		http.Error(w, "Error while getting page", http.StatusInternalServerError)
 	}
 
+	w.Header().Add("Content-Type", "text/html")
+	w.WriteHeader(http.StatusOK)
+
 	_, err = w.Write(page)
 
 	if err != nil {
