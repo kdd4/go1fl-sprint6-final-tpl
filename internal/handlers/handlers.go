@@ -14,7 +14,7 @@ func HandlerRoot(w http.ResponseWriter, req *http.Request) {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 	}
 
-	page, err := os.ReadFile("../index.html")
+	page, err := os.ReadFile("index.html")
 
 	if err != nil {
 		http.Error(w, "Error while getting page", http.StatusInternalServerError)
