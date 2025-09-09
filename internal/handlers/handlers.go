@@ -42,7 +42,7 @@ func HandlerUpload(w http.ResponseWriter, req *http.Request) {
 
 	if err != nil {
 		errorMessage := fmt.Sprintf("Loading file error: %s", err.Error())
-		http.Error(w, errorMessage, http.StatusBadRequest)
+		http.Error(w, errorMessage, http.StatusInternalServerError)
 	}
 
 	defer file.Close()
@@ -52,7 +52,7 @@ func HandlerUpload(w http.ResponseWriter, req *http.Request) {
 
 	if err != nil {
 		errorMessage := fmt.Sprintf("Reading file error: %s", err.Error())
-		http.Error(w, errorMessage, http.StatusBadRequest)
+		http.Error(w, errorMessage, http.StatusInternalServerError)
 	}
 
 	translatedText := service.MorseTranslator(string(text))
@@ -65,4 +65,9 @@ func HandlerUpload(w http.ResponseWriter, req *http.Request) {
 		errorMessage := fmt.Sprintf("Writing file error: %s", err.Error())
 		http.Error(w, errorMessage, http.StatusInternalServerError)
 	}
+
+	w.Header().Add("Content-Type", "text/plain; charset=utf-8")
+	w.WriteHeader(http.StatusOK)
+
+	fmt.Fprint(w, translatedText)
 }
